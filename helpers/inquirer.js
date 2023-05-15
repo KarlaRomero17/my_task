@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 require('colors');
-
+//opciones del menu
 const preguntas = [
     {
         type: 'list',
@@ -45,11 +45,12 @@ const inquirerMenu = async() => {
     console.log('============================='.green);
     console.log('   Seleccione una opción'.green);
     console.log('=============================\n'.green);
-
-    const opt = await inquirer.prompt(preguntas);
-    return opt;
-
+    // const opt = await inquirer.prompt(preguntas);
+    //se destrucutra para obtener el option
+    const { option } = await inquirer.prompt(preguntas);
+    return option;
 }
+// hacer una pausa y continuar
 const pausa = async() => {
     const question = [
         {
@@ -62,7 +63,28 @@ const pausa = async() => {
     await inquirer.prompt(question);
 };
 
+//leer input del usuario
+const leerInput = async(message) => {
+    const question = [
+        {
+            type: 'input',
+            name: 'desc',
+            message,
+            validate (value){
+                if(value.length === 0){
+                    return 'Por favor ingrese un valor';
+                } 
+                return true;
+            }
+        } 
+    ];
+    //se hace una desctructuracion para obtener el desc
+    const {desc} = await inquirer.prompt(question);//esto retorna un objeto
+    return desc;
+};
+
 module.exports = {
     inquirerMenu,
-    pausa
+    pausa,
+    leerInput
 }
